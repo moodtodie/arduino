@@ -3,9 +3,6 @@
 // #include <OneWire.h>
 // #include <DallasTemperature.h>
 
-// #define AIR_MOISTURE_VALUE 620
-// #define WATER_MOISTURE_VALUE 336
-// #define MOISTURE_SENSOR_PIN A0
 // #define TEMPERATURE_SENSOR_PIN 2
 
 // #define THERMAL_SENSOR_0 "ceiling"
@@ -17,19 +14,17 @@
 // OneWire ow(TEMPERATURE_SENSOR_PIN);
 // DallasTemperature thermal_sensors(&ow);
 
-// int soilMoistureValue = 0;      //  влажность почвы
-// int soilMoisturePercent = 0;    //  процент влажности почвы
-
 #include "ESP8266.h"
+#include "moisture_sensor.h"
 
 void setup() {
-//    pinMode(TEMPERATURE_SENSOR_PIN, INPUT);
+    //    pinMode(TEMPERATURE_SENSOR_PIN, INPUT);
     Serial.begin(115200);
     // Wire.begin();
 
     Serial.println("Source: https://github.com/moodtodie/arduino/tree/main/greenhouse");
     Serial.println("-------Arduino-is-run-------");
-    
+
     // if (!rtc.begin())       // проверка наличия модуля на линии i2c
     //     Serial.println("Error: RTC module NOT found.");
     // else
@@ -41,23 +36,43 @@ void setup() {
     // Serial.println(" temperature sensors");
 
     wifi_connect();
+    tg_send_message("Arduino is run!");
 
     Serial.println("----------------------------");
 }
 
+short int counter = 35;
+
 void loop() {
-    // printMessage();
-    tg_send_message("Hi, Admin!");
-    delay(120000);
+    printMessage();
+    counter++;
+    if (counter >= 40)  //  2 min
+    {
+        counter = 0;
+        send_message();
+    }
+
+    delay(3000);       //  3 sec
+    // delay(120000);
 }
 
-// void printMessage() {
-//     Serial.println("======= Notification =======");
-//     Serial.println(getData());
-//     Serial.print(getSoilMoisture());
-//     Serial.print(getTemperature());
-//     Serial.println("============================");
-// }
+void send_message() {
+    String message = "";
+    message += "Time: ¯\\_(ツ)_/¯ ;\n";
+    message += getSoilMoisture();
+    message += "Temperature: In develping...;\n";
+    tg_send_message(message);
+}
+
+void printMessage() {
+    Serial.println("======= Notification =======");
+    // Serial.println(getData());
+    Serial.print(getSoilMoisture());
+    // int digital = digitalRead(2);
+    // Serial.printf("Pin D2: %d;\n", digital);
+    // Serial.print(getTemperature());
+    Serial.println("============================");
+}
 
 // String getTemperature() {
 //     // Send the command for all devices on the bus to perform a temperature conversion:
@@ -87,24 +102,6 @@ void loop() {
 //         }
 //         message += ": " + String(tempC) + " \xC2\xB0" + "C\n";
 //     }
-//     return message;
-// }
-
-// String getSoilMoisture() {
-//     soilMoistureValue = analogRead(MOISTURE_SENSOR_PIN);
-//     String message = "";
-//     message += "Moisture sensor value: " + String(soilMoistureValue) + "\n";   //  Показывает значение датчика
-//     message += "Relative soil moisture: ";  //  Отнасительная влажность
-//     soilMoisturePercent = map(soilMoistureValue, AIR_MOISTURE_VALUE, WATER_MOISTURE_VALUE, 0, 100);
-
-//     if (soilMoisturePercent >= 100)
-//         message += "100";
-//     else if (soilMoisturePercent <= 0)
-//         message += "0";
-//     else if (soilMoisturePercent > 0 && soilMoisturePercent < 100)
-//         message += String(soilMoisturePercent);
-
-//     message += " %\n";
 //     return message;
 // }
 
