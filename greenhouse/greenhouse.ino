@@ -1,3 +1,4 @@
+#include "config.h"
 #include "ESP8266.h"
 #include "moisture_sensor.h"
 #include "DS18B20.h"
@@ -5,31 +6,36 @@
 void setup() {
     Serial.begin(115200);
 
-    Serial.println("Source: https://github.com/moodtodie/arduino/tree/main/greenhouse");
-    Serial.println("-------Arduino-is-run-------");
+    Serial.println(MSG_SOURCE);
+    Serial.println(MSG_HEADER);
 
+    Serial.print(MSG_CONNECTING_TO);
+    Serial.print(STASSID);
+    Serial.print("...\n");
     wifi_connect();
+    Serial.println(MSG_CONNECTED);
 
-    String telegram_message = "Arduino WeNos D1 R1 is run!\n"
-        "Termal sensors: ";
+
+    String telegram_message = TG_HEADER;
+    telegram_message += TG_COUNT_TERAL_SENSORS;
 
     init_thermal_sensors();
 
     int sensorsCount = getThermalSensorsCount();
     if (sensorsCount > 0) {
-        Serial.print("Found ");
+        Serial.print(MSG_FOUND_TERAL_SENSORS_PT_1);
         Serial.print(sensorsCount);
-        Serial.println(" temperature sensors");
+        Serial.println(MSG_FOUND_TERAL_SENSORS_PT_2);
 
         telegram_message += String(sensorsCount) + "\n";
     }
     else {
-        Serial.println("Temperature sensors NOT found");
+        Serial.println(MSG_TERAL_SENSORS_NOT_FOUND);
     }
 
     tg_send_message(telegram_message);
 
-    Serial.println("----------------------------");
+    Serial.println(MSG_FOOTER);
 }
 
 short int counter = 11;
@@ -48,9 +54,9 @@ void loop() {
 }
 
 void send_message() {
-    Serial.println("*Telegram send message*");
+    Serial.println(MSG_SEND_TG_MESSAGE);
     String message = "";
-    message += "Time: ¯\\_(ツ)_/¯ ;\n";
+    message += getData();
     message += getSoilMoisture();
     message += getTemperature();
     tg_send_message(message);
@@ -58,13 +64,8 @@ void send_message() {
 
 void printMessage() {
     Serial.println("======= Notification =======");
-    // Serial.println(getData());
+    Serial.print(getData());
     Serial.print(getSoilMoisture());
     Serial.print(getTemperature());
     Serial.println("============================\n");
 }
-
-// String getData() {
-//     DateTime dt = rtc.getTime();
-//     return "[" + String(dt.year) + "-" + String(dt.month) + "-" + String(dt.date) + " " + String(dt.hour) + ":" + String(dt.minute) + ":" + String(dt.second) + "] ";
-// }

@@ -10,4 +10,6 @@ void wifi_connect();
 
 void tg_send_message(String message);
 
+String getData();
+
 #endif //GREENHOUSE_ESP8266_H

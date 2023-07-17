@@ -22,7 +22,7 @@ String getTemperature() {
         float tempC = thermal_sensors.getTempCByIndex(i); // the index 0 refers to the first device
 
         // Print the temperature in Celsius in the Serial Monitor:
-        message += "Temperature ";
+        message += MSG_TEMPERATURE;
         switch (i)
         {
         case 0:
@@ -35,13 +35,14 @@ String getTemperature() {
             message += THERMAL_SENSOR_2;
             break;
         default:
-            message += "sensor #" + String(i + 1);
+            message += MSG_SENSOR_N + String(i + 1);
             break;
         }
+        message += ": ";
         if (tempC < -100)
-            message += ": " + String(tempC) + " \xC2\xB0" + "C\n";
+            message += String(tempC) + MSG_DEGREES + "C\n";
         else
-            message += ": No data\n";
+            message += MSG_NO_DATA;
     }
     return message;
 }
