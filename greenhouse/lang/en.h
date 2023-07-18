@@ -25,3 +25,6 @@
 //  for ESP8266
 #define MSG_CONNECTING_TO "\n Connecting to "
 #define MSG_CONNECTED "Connected"
+#define MSG_TIME "Time: "
+#define MSG_DATE "Date: "
+#define MSG_NO_CONNECTION "No connection"
