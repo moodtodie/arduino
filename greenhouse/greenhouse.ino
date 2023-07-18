@@ -38,19 +38,17 @@ void setup() {
     Serial.println(MSG_FOOTER);
 }
 
-short int counter = 11;
+auto counter = FREQUENCY;
 
 void loop() {
     printMessage();
 
     counter++;
-    if (counter >= 12)  //  1 hourse
-    {
+    if (counter >= FREQUENCY) {
         counter = 0;
-        send_message();
+        send_message(); //  FREQUENCY * 5 min
     }
-    // delay(300000);      //  5 min
-    delay(10000);      //  10 sec
+    delay(300000);      //  5 min
 }
 
 void send_message() {
