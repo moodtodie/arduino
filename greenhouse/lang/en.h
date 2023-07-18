@@ -10,7 +10,6 @@
 //  for Telegram
 #define TG_HEADER "Arduino WeNos D1 R1 is run!\n"
 #define TG_COUNT_TERAL_SENSORS "Termal sensors: "
-#define TG_TIME "Time: ¯\\_(ツ)_/¯ ;\n"
 
 //  for termal sensors
 #define MSG_TEMPERATURE "Temperature "
