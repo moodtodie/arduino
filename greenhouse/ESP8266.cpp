@@ -29,30 +29,34 @@ void tg_send_message(String message) {
         //Initializing an HTTPS communication using the secure client
         String url = "https://api.telegram.org:443/bot" + String(TELEGRAM_BOT_TOKEN) + "/sendMessage";
 
-        if (https.begin(*client, url)) {  // HTTPS
+        String chats_id[] = CHAT_ID;
 
-            https.addHeader("Content-Type", "application/json");
+        for (auto id : chats_id) {
+            if (https.begin(*client, url)) {  // HTTPS
 
-            // Создание JSON-строки с данными сообщения
-            String json = "{\"chat_id\":\"" + String(CHAT_ID) + "\",\"text\":\"" + message + "\"}";
+                https.addHeader("Content-Type", "application/json");
 
-            // start connection and send HTTP header
-            int httpCode = https.POST(json);
+                // Создание JSON-строки с данными сообщения
+                String json = "{\"chat_id\":\"" + id + "\",\"text\":\"" + message + "\"}";
 
-            // httpCode will be negative on error
-            if (httpCode > 0) {
-                // HTTP header has been send and Server response header has been handled
-                if (Serial.available())
-                    Serial.printf("[HTTPS] POST... code: %d\n", httpCode);
+                // start connection and send HTTP header
+                int httpCode = https.POST(json);
+
+                // httpCode will be negative on error
+                if (httpCode > 0) {
+                    // HTTP header has been send and Server response header has been handled
+                    if (Serial.available())
+                        Serial.printf("[HTTPS] POST... code: %d\n", httpCode);
+                }
+                else
+                    if (Serial.available())
+                        Serial.printf("[HTTPS] POST... failed, error: %s\n", https.errorToString(httpCode).c_str());
+                https.end();
             }
             else
                 if (Serial.available())
-                    Serial.printf("[HTTPS] POST... failed, error: %s\n", https.errorToString(httpCode).c_str());
-            https.end();
+                    Serial.printf("[HTTPS] Unable to connect\n");
         }
-        else
-            if (Serial.available())
-                Serial.printf("[HTTPS] Unable to connect\n");
     }
 }
 
