@@ -3,12 +3,39 @@
 #include "moisture_sensor.h"
 #include "DS18B20.h"
 
+void leds_on(){
+  digitalWrite(GREEN_LED, HIGH);
+  digitalWrite(RED_LED, HIGH);
+}
+
+void leds_off(){
+  digitalWrite(GREEN_LED, LOW);
+  digitalWrite(RED_LED, LOW);
+}
+
 void setup() {
     Serial.begin(115200);
 
     Serial.println(MSG_SOURCE);
     Serial.println(MSG_HEADER);
 
+    pinMode(GREEN_LED, OUTPUT);
+    pinMode(RED_LED, OUTPUT);
+
+    leds_on();
+    delay(200);   //  0,5s
+    leds_off();
+    delay(500);  //  1s
+    leds_on();
+    delay(200);   //  0,5s
+    leds_off();
+    delay(500);  //  1s
+    leds_on();
+    delay(200);   //  0,5s
+    leds_off();
+
+    digitalWrite(GREEN_LED, LOW);
+   
     Serial.print(MSG_CONNECTING_TO);
     Serial.print(STASSID);
     Serial.print("...\n");
@@ -36,19 +63,38 @@ void setup() {
     tg_send_message(telegram_message);
 
     Serial.println(MSG_FOOTER);
+    
+    digitalWrite(GREEN_LED, HIGH);
+
+//    pinMode(12, OUTPUT);
+    // pinMode(GREEN_LED, OUTPUT);
+    leds_off();
 }
 
 auto counter = FREQUENCY;
 
 void loop() {
+    digitalWrite(RED_LED, HIGH);
     printMessage();
 
     counter++;
-    if (counter >= FREQUENCY) {
+    // tg_send_message("counter: " + String(counter));
+    // tg_send_message("max: " + String(getMaxTemperature()));
+    // tg_send_message("limit: " + String(getTLimit()));
+    if ((getTLimit() == getMaxTemperature()) || (counter >= FREQUENCY)) {
+        digitalWrite(GREEN_LED, HIGH);
         counter = 0;
         send_message(); //  FREQUENCY * 5 min
+        digitalWrite(GREEN_LED, LOW);
     }
-    delay(300000);      //  5 min
+
+    Serial.println("GET Update: " + tg_getUpdates());
+
+    // if (counter % 10 == 0) {
+        digitalWrite(RED_LED, LOW);
+    // }
+    
+    delay(500);
 }
 
 void send_message() {

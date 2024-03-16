@@ -1,5 +1,16 @@
 #include "moisture_sensor.h"
 
+int AIR_MOISTURE_VALUE = 856;      //  Значение датчика в воздухе
+int WATER_MOISTURE_VALUE = 488;    //  Значение датчика в воде
+
+void setAirMoisture(int value){
+    AIR_MOISTURE_VALUE = value;
+}
+
+void setWaterMoisture(int value){
+    WATER_MOISTURE_VALUE = value;
+}
+
 String getSoilMoisture() {
     int soilMoistureValue = analogRead(MOISTURE_SENSOR_PIN);
     

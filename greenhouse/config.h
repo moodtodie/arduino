@@ -16,8 +16,6 @@
 // #define CHAT_ID {"chat_id_1", "chat_id_2"}  //  Multi
 
 //  Настройка датчика влажности
-#define AIR_MOISTURE_VALUE 856      //  Значение датчика в воздухе
-#define WATER_MOISTURE_VALUE 488    //  Значение датчика в воде
 #define MOISTURE_SENSOR_PIN A0      //  Пин (аналоговый)
 
 //  Настройка датчика температуры
@@ -25,5 +23,9 @@
 #define THERMAL_SENSOR_0 "name_1"   //  Имя термо-датчика №1
 #define THERMAL_SENSOR_1 "name_2"   //  Имя термо-датчика №2
 #define THERMAL_SENSOR_2 "name_3"    //  Имя термо-датчика №3
+
+//  Светодиоды
+#define GREEN_LED 2
+#define RED_LED 12
 
 #endif //GREENHOUSE_CONFIG_H

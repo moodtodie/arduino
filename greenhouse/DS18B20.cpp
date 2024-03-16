@@ -3,6 +3,16 @@
 OneWire ow(TEMPERATURE_SENSOR_PIN);
 DallasTemperature thermal_sensors(&ow);
 
+int tLimit = 30;
+
+void setTLimit(int limit){
+    tLimit = limit;
+}
+
+int getTLimit(){
+    return tLimit;
+}
+
 void init_thermal_sensors() {
     pinMode(TEMPERATURE_SENSOR_PIN, INPUT);
     thermal_sensors.begin();
@@ -10,6 +20,18 @@ void init_thermal_sensors() {
 
 uint8_t getThermalSensorsCount() {
     return thermal_sensors.getDeviceCount();
+}
+
+int getMaxTemperature() {
+    thermal_sensors.requestTemperatures();
+    int max = -1000;
+    for (int i = 0; i < thermal_sensors.getDeviceCount(); i++) {
+        float tempC = thermal_sensors.getTempCByIndex(i);
+        if (tempC > max) {
+            max = tempC;
+        }
+    }
+    return max;
 }
 
 String getTemperature() {
@@ -39,7 +61,7 @@ String getTemperature() {
             break;
         }
         message += ": ";
-        if (tempC < -100)
+        if (tempC > -100)
             message += String(tempC) + MSG_DEGREES + "C\n";
         else
             message += MSG_NO_DATA;

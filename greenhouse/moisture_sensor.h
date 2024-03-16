@@ -3,6 +3,9 @@
 
 #include "config.h"
 
+void setAirMoisture(int value);
+void setWaterMoisture(int value);
+
 String getSoilMoisture();
 
 #endif //GREENHOUSE_MOISTURE_SENSOR_H
