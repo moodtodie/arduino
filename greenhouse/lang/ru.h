@@ -8,22 +8,20 @@
 #define MSG_FOOTER "------------------------------"
 
 // для телеграма
-#define TG_HEADER "Arduino WeNos D1 R1 запущен!\n"
-#define TG_COUNT_TERAL_SENSORS "Датчиков температуры: "
+#define TG_HEADER "Arduino WeNos D1 R1 запущен!"
+#define TG_COUNT_TERAL_SENSORS "Датчиков температуры"
 
 // для термодатчиков
-#define MSG_TEMPERATURE "Температура "
+#define MSG_TEMPERATURE "Температура"
 #define MSG_SENSOR_N "датчик №"
-#define MSG_DEGREES " \xC2\xB0"
-#define MSG_NO_DATA "Нет данных\n"
+#define MSG_NO_DATA "Нет данных"
 
 // для датчика влажности
-#define MSG_MOISTURE_SENSOR_VALUE "Значение датчика влажности: "
-#define MSG_RELATIVE_MOISTURE_SENSOR_VALUE "Относительная влажность почвы: "
+#define MSG_MOISTURE_SENSOR_VALUE "Значение датчика влажности"
+#define MSG_RELATIVE_MOISTURE_SENSOR_VALUE "Относительная влажность почвы"
 
 // для ESP8266
-#define MSG_CONNECTING_TO "\n Подключение к "
+#define MSG_CONNECTING_TO "Подключение к"
 #define MSG_CONNECTED "Подключено"
-#define MSG_TIME "Время: "
-#define MSG_DATE "Дата: "
+#define MSG_DATE "Дата"
 #define MSG_NO_CONNECTION "Нет соединения"

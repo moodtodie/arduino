@@ -7,12 +7,11 @@
 
 void init_thermal_sensors();
 
-void setTLimit(int limit);
-int getTLimit();
+// int getTLimit();
 
 uint8_t getThermalSensorsCount();
 
 String getTemperature();
-int getMaxTemperature();
+// int getMaxTemperature();
 
 #endif // GREENHOUSE_DS18B20_H

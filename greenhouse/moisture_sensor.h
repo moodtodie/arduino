@@ -3,8 +3,8 @@
 
 #include "config.h"
 
-void setAirMoisture(int value);
-void setWaterMoisture(int value);
+// void setAirMoisture(int value);
+// void setWaterMoisture(int value);
 
 String getSoilMoisture();
 
