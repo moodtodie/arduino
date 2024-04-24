@@ -35,33 +35,34 @@ void setup() {
     tg_send_message(telegram_message);
 
     Serial.println(MSG_FOOTER);
+    send_stat();
 }
 
 unsigned long previousMillis = 0;
-const long interval = 1000; //  1 sec
+unsigned long previousLimitMillis = 0;
+const long interval = 1000 * 60;  //  1 min
 
 void loop() {
     unsigned long currentMillis = millis();
-    Serial.println("GET Update: " + tg_getUpdates());
+    Serial.println("GET Update: " + tg_get_updates());
 
-    if (currentMillis - previousMillis >= (interval * 30)) {
+    if (currentMillis - previousMillis >= (interval * FREQUENCY)) {
         previousMillis = currentMillis;
 
         // Выполняем функцию в "отдельном потоке"
-        printMessage(); //  Debug
-        Serial.println("GET Update: " + tg_getUpdates());
-        send_message(); //  FREQUENCY * 5 min
+        // printMessage(); //  Debug
+        Serial.println("GET Update: " + tg_get_updates());
+        Serial.println(MSG_SEND_TG_MESSAGE);
+        send_stat(); //  FREQUENCY * 5 min
     }
-    delay(250);
-}
 
-void send_message() {
-    Serial.println(MSG_SEND_TG_MESSAGE);
-    String message = "";
-    message += getData();
-    message += getSoilMoisture();
-    message += getTemperature();
-    tg_send_message(message);
+    if (currentMillis - previousLimitMillis >= (interval * 25)) {
+        if (!check_limits()) {
+            previousLimitMillis = currentMillis;
+            send_stat();
+        }
+    }
+    // delay(250); // Debug
 }
 
 void printMessage() {

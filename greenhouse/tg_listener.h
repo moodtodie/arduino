@@ -7,7 +7,8 @@
 #include <ArduinoJson.h>
 #include "config.h"
 #include "ESP8266.h"
+#include "limits.h"
 
-String tg_getUpdates();
+String tg_get_updates();
 
 #endif //GREENHOUSE_TG_LISTENER_H

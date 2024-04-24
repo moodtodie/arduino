@@ -2,9 +2,7 @@
 #define GREENHOUSE_MOISTURE_SENSOR_H
 
 #include "config.h"
-
-// void setAirMoisture(int value);
-// void setWaterMoisture(int value);
+#include "limits.h"
 
 String getSoilMoisture();
 

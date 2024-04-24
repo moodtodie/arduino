@@ -60,6 +60,14 @@ void tg_send_message(String message) {
     }
 }
 
+void send_stat() {
+    String message = "";
+    message += getData();
+    message += getSoilMoisture();
+    message += getTemperature();
+    tg_send_message(message);
+}
+
 String formatDate(String inputDate) {
   // Разделить строку по символу '/'
   int firstSlash = inputDate.indexOf('/');

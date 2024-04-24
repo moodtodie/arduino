@@ -38,47 +38,98 @@ void splitCommand(const String& input, String& firstPart, String& secondPart) {
     }
 }
 
+void extractValues(String input, String &val1, String &val2, String &val3) {
+  // Разделение строки на подстроки по пробелу
+  int spaceIndex1 = input.indexOf(' ');
+  int spaceIndex2 = input.indexOf(' ', spaceIndex1 + 1);
+
+  // Если найдены все три пробела, извлекаем подстроки
+  if (spaceIndex1 != -1 && spaceIndex2 != -1) {
+    val1 = input.substring(0, spaceIndex1);
+    val2 = input.substring(spaceIndex1 + 1, spaceIndex2);
+    val3 = input.substring(spaceIndex2 + 1);
+  } else {
+    // Вывод сообщения об ошибке, если не удалось найти все три значения
+    Serial.println(ERR_MSG_FAILED_TO_EXTRACT_VALUES);
+  }
+}
+
+void handle_set_limit_command(String type, String param, String val){
+    if (type == "t") {
+        auto value = val.toFloat();
+
+        if (param == "max") {
+            setMaxTemperature(value); 
+        } else if (param == "min") {
+            setMinTemperature(value);
+        } else {
+            tg_send_message(TG_UNKNOWN_PARAMETER);
+            return;
+        }
+    } else if (type == "m") {
+        auto value = val.toInt();
+        
+        if (param == "max") {
+            setWaterMoisture(value);
+            return; 
+        } else if (param == "min") {
+            setAirMoisture(value);
+        } else {
+            tg_send_message(TG_UNKNOWN_PARAMETER);
+            return;
+        }
+    } else {
+        tg_send_message(TG_UNKNOWN_TYPE);
+        return;
+    }
+    tg_send_message(TG_SUCCESSFULLY_MODIFIED);
+}
+
 void executeCommand(String command) {
     String cmd, value;
     splitCommand(command, cmd, value);
 
-
+    String message = "";
+    
     if (cmd.equals("/info")) {
-        tg_send_message("/setlimit [знач.] - Что бы установить новый лимит температуры;\n/setairval [знач.] - Что бы значение датчика влажности в воздухе;\n/setwaterval [знач.] - Что бы значение датчика влажности в воде;\n/show - Что бы узнать параметры;\n/info - Что бы увидить это меню");
+        message = "/setlimit [type] [param] [value] - " + String(TG_DESC_TO_SET_NEW_LIMITS) + "\n";
+        message += " type:\n";
+        message += "  t - " + String(TG_DESC_TYPE_TEMPERATURE) + "\n";
+        message += "  m - " + String(TG_DESC_TYPE_MOISTURE) + "\n";
+        message += " param:\n";
+        message += "  max - " + String(TG_DESC_UPPER_LIMIT) + "\n";
+        message += "  min - " + String(TG_DESC_LOWER_LIMIT) + "\n";
+        message += "/show - " + String(TG_DESC_TO_PRINT_PARAMETERS) + "\n";
+        message += "/limits - " + String(TG_DESC_TO_PRINT_LIMITS) + "\n";
+        message += "/info - " + String(TG_DESC_TO_PRINT_THIS_MESSAGE) + "\n";
     } else if (cmd.equals("/setlimit")) {
-        // setTLimit(value.toInt());
-        tg_send_message("In development...");
-        // tg_send_message("Установлена новое значение температуры: " + getTLimit());
-    } else if (cmd.equals("/setairval")) {
-        tg_send_message("In development...");
-        // setAirMoisture(value.toInt());
-    } else if (cmd.equals("/setwaterval")) {
-        tg_send_message("In development...");
-        // setWaterMoisture(value.toInt());
+        String type, param, val;
+        extractValues(value, type, param, val);
+        handle_set_limit_command(type, param, val);
     } else if (cmd.equals("/show")) {
-        // String message = "";
-        // message += getData();
-        // message += getSoilMoisture();
-        // message += getTemperature();
-        tg_send_message("In development...");
-    } else if (cmd.equals("/add")) {
-        //  In progress...
-    } else if (cmd.equals("/delete")) {
-        //  In progress...
+        send_stat();
+    } else if (cmd.equals("/limits")) {
+        message = String(TG_LIMITATIONS) + ":\n";
+        message += String(TG_MAX_TEMPERATURE) + ": " + String(getMaxTemperature()) +  "\n";
+        message += String(TG_MIN_TEMPERATURE) + ": " + String(getMinTemperature()) + "\n";
+        message += String(TG_AIR_MOISTURE) + ": " + String(getAirMoisture()) + "\n";
+        message += String(TG_WATER_MOISTURE) + ": " + String(getWaterMoisture()) + "\n";
     } else {
-        String s = "command: ";
-        // s += command;
-        // s += "\ncmd: ";
-        // s += cmd;
-        // s += "\nval: ";
-        // s += value;
-        tg_send_message(s);
+        message = String(TG_UNKNOWN_COMMAND) + ": ";
+        message += cmd;
+
+        // DEBUG
+        // message = "max: ";
+        // message += getMaxTemperatureOnSensors();
+        // message += "\nmin: ";
+        // message += getMinTemperatureOnSensors();
     }
+    tg_send_message(message);
 }
 
 //  Use API Telegram
 //  Telegram Bot get updates
-String tg_getUpdates() {
+String tg_get_updates() {
     // wait for WiFi connection
     String payload = "clear";
     if ((WiFi.status() == WL_CONNECTED)) {

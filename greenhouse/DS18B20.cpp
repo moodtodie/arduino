@@ -12,17 +12,39 @@ uint8_t getThermalSensorsCount() {
     return thermal_sensors.getDeviceCount();
 }
 
-// int getMaxTemperature() {
-//     thermal_sensors.requestTemperatures();
-//     int max = -1000;
-//     for (int i = 0; i < thermal_sensors.getDeviceCount(); i++) {
-//         float tempC = thermal_sensors.getTempCByIndex(i);
-//         if (tempC > max) {
-//             max = tempC;
-//         }
-//     }
-//     return max;
-// }
+float getMaxTemperatureOnSensors() {
+    thermal_sensors.requestTemperatures();
+    float max = -1000;
+    for (int i = 0; i < thermal_sensors.getDeviceCount(); i++) {
+        if (i == 2)
+            continue;
+            
+        float tempC = thermal_sensors.getTempCByIndex(i);
+        if (tempC > max) {
+            max = tempC;
+        }
+    }
+    return max;
+}
+
+float getMinTemperatureOnSensors() {
+    thermal_sensors.requestTemperatures();
+    float min = 1000;
+    for (int i = 0; i < thermal_sensors.getDeviceCount(); i++) {
+        if (i == 2)
+            continue;
+        
+        float tempC = thermal_sensors.getTempCByIndex(i);
+        if (tempC < min) {
+            min = tempC;
+        }
+    }
+    return min;
+}
+
+float roundToTenths(float value) {
+  return (round(value * 10.0) / 10.0);
+}
 
 String getTemperature() {
     // Send the command for all devices on the bus to perform a temperature conversion:
@@ -32,11 +54,11 @@ String getTemperature() {
     {
         // Fetch the temperature in degrees Celsius for device index:
         float tempC = thermal_sensors.getTempCByIndex(i); // the index 0 refers to the first device
+        tempC = roundToTenths(tempC);
 
         // Print the temperature in Celsius in the Serial Monitor:
         message += String(MSG_TEMPERATURE) + " ";
-        switch (i)
-        {
+        switch (i) {
         case 0:
             message += THERMAL_SENSOR_0;
             break;
@@ -52,7 +74,7 @@ String getTemperature() {
         }
         message += ": ";
         if (tempC > -100)
-            message += String(tempC) + " \xC2\xB0" + "C\n";
+            message += String(tempC, 1) + " \xC2\xB0" + "C\n";
         else
             message += String(MSG_NO_DATA) + "\n";
     }
