@@ -4,6 +4,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecureBearSSL.h>
+#include <Regexp.h>
 #include <ArduinoJson.h>
 #include "moisture_sensor.h"
 #include "DS18B20.h"

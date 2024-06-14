@@ -60,9 +60,47 @@ void tg_send_message(String message) {
     }
 }
 
+/*
+Регулярное выражение для проверки формата "Date: yyyy-MM-dd HH:mm"
+yyyy: 4 цифры
+MM: 2 цифры от 01 до 12
+dd: 2 цифры от 01 до 31
+HH: 2 цифры от 00 до 23
+mm: 2 цифры от 00 до 59
+*/
+bool isCorrectDateFormat(String dateTime){
+    // Создание изменяемого массива char, достаточно большого для хранения строки
+    char charArray[dateTime.length() + 1];
+
+    // Копирование строки в массив char
+    dateTime.toCharArray(charArray, dateTime.length() + 1);
+  
+    // Создание объекта для хранения результата
+    MatchState ms;
+    ms.Target(charArray);
+
+    // Проверка строки на соответствие регулярному выражению
+    char result = ms.Match(("^" + String(MSG_DATE) + ": (\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]) (0\\d|1\\d|2[0-3]):([0-5]\\d)$").c_str());
+
+    if (result == REGEXP_MATCHED)
+        return true;    //  String matches the format!
+    return false;   //  String does not match the format.
+}
+
 void send_stat() {
-    String message = "";
-    message += getData();
+    String message;
+
+    int attempt = 0;
+    do {
+        message = "";
+        message += getData();
+        if (isCorrectDateFormat(message))
+            break;
+        else
+            message = String(MSG_DATE) + ": " + String(MSG_NO_CONNECTION);
+    } while (attempt < 5);
+
+    // message += getData();
     message += getSoilMoisture();
     message += getTemperature();
     tg_send_message(message);
@@ -153,5 +191,5 @@ String getData() {
 
         return dataTime;
     }
-    return MSG_NO_CONNECTION;
+    return String(MSG_DATE) + ": " + String(MSG_NO_CONNECTION);
 }
