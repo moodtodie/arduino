@@ -110,7 +110,8 @@ void send_stat(String chat_id) {
         if (isCorrectDateFormat(message))
             break;
         else
-            message = String(MSG_DATE) + ": " + String(MSG_NO_CONNECTION);
+            message = String(MSG_DATE) + ": " + String(MSG_NO_CONNECTION) + "\n";
+        attempt++;
     } while (attempt < 5);
 
     // message += getData();
