@@ -93,7 +93,7 @@ bool isCorrectDateFormat(String dateTime){
     ms.Target(charArray);
 
     // Проверка строки на соответствие регулярному выражению
-    char result = ms.Match(("^" + String(MSG_DATE) + ": (\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]) (0\\d|1\\d|2[0-3]):([0-5]\\d)$").c_str());
+    char result = ms.Match((String(MSG_DATE) + ": (20%d%d)-([01]%d)-([0-3]%d) ([0-2]%d):([0-5]%d)").c_str());
 
     if (result == REGEXP_MATCHED)
         return true;    //  String matches the format!
