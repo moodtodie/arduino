@@ -12,9 +12,11 @@
 
 void wifi_connect();
 
-void tg_send_message(String message);
+void tg_send_message(String message, String chat_id = "");
 
-void send_stat();
+// void tg_send_message(String message, String chats_id[]);
+
+void send_stat(String chat_id = "");
 
 String getData();
 

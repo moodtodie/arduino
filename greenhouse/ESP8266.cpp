@@ -12,9 +12,16 @@ void wifi_connect() {
         delay(500);
 }
 
+// //  Use API Telegram
+// //  Telegram Bot send text message
+// void tg_send_message(String message){
+//     String chats_id[] = CHAT_ID;
+//     tg_send_message(message, chats_id);
+// }
+
 //  Use API Telegram
 //  Telegram Bot send text message
-void tg_send_message(String message) {
+void tg_send_message(String message, String chat_id) {
     // wait for WiFi connection
     if ((WiFi.status() == WL_CONNECTED)) {
 
@@ -30,6 +37,9 @@ void tg_send_message(String message) {
         String url = "https://api.telegram.org:443/bot" + String(TELEGRAM_BOT_TOKEN) + "/sendMessage";
 
         String chats_id[] = CHAT_ID;
+
+        if (chat_id != "")
+            chats_id[0] = chat_id;
 
         for (auto id : chats_id) {
             if (https.begin(*client, url)) {  // HTTPS
@@ -56,6 +66,9 @@ void tg_send_message(String message) {
             else
                 if (Serial.available())
                     Serial.printf("[HTTPS] Unable to connect\n");
+            
+            if (chat_id != "")
+                break;
         }
     }
 }
@@ -87,7 +100,7 @@ bool isCorrectDateFormat(String dateTime){
     return false;   //  String does not match the format.
 }
 
-void send_stat() {
+void send_stat(String chat_id) {
     String message;
 
     int attempt = 0;
@@ -103,7 +116,7 @@ void send_stat() {
     // message += getData();
     message += getSoilMoisture();
     message += getTemperature();
-    tg_send_message(message);
+    tg_send_message(message, chat_id);
 }
 
 String formatDate(String inputDate) {

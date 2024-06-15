@@ -85,7 +85,7 @@ void handle_set_limit_command(String type, String param, String val){
     tg_send_message(TG_SUCCESSFULLY_MODIFIED);
 }
 
-void executeCommand(String command) {
+void executeCommand(String command, String chat_id = "") {
     String cmd, value;
     splitCommand(command, cmd, value);
 
@@ -107,7 +107,7 @@ void executeCommand(String command) {
         extractValues(value, type, param, val);
         handle_set_limit_command(type, param, val);
     } else if (cmd.equals("/show")) {
-        send_stat();
+        send_stat(chat_id);
     } else if (cmd.equals("/limits")) {
         message = String(TG_LIMITATIONS) + ":\n";
         message += String(TG_MAX_TEMPERATURE) + ": " + String(getMaxTemperature()) +  "\n";
@@ -117,14 +117,13 @@ void executeCommand(String command) {
     } else {
         message = String(TG_UNKNOWN_COMMAND) + ": ";
         message += cmd;
-
         // DEBUG
         // message = "max: ";
         // message += getMaxTemperatureOnSensors();
         // message += "\nmin: ";
         // message += getMinTemperatureOnSensors();
     }
-    tg_send_message(message);
+    tg_send_message(message, chat_id);
 }
 
 //  Use API Telegram
