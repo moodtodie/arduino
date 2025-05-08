@@ -1,14 +1,21 @@
 #include "config.h"
-#include "ESP8266.h"
-#include "moisture_sensor.h"
-#include "DS18B20.h"
-#include "tg_listener.h"
+#include "network.hh"
+#include "telegram.hh"
+#include "limits.hh"
+#include "sensors.hh"
 
 void setup() {
     Serial.begin(115200);
 
     Serial.println(MSG_SOURCE);
     Serial.println(MSG_HEADER);
+
+    setMaxTemperature(MAX_TEMPERATURE_VALUE);
+    setMinTemperature(MIN_TEMPERATURE_VALUE);
+    setAirMoisture(AIR_MOISTURE_VALUE);
+    setWaterMoisture(WATER_MOISTURE_VALUE);
+
+    Serial.println("\nThe limits are set up");
 
     Serial.print("\n " + String(MSG_CONNECTING_TO) + " ");
     Serial.print(STASSID);
@@ -44,31 +51,30 @@ const long interval = 1000 * 60;  //  1 min
 
 void loop() {
     unsigned long currentMillis = millis();
-    Serial.println("GET Update: " + tg_get_updates());
+    
+    // if ((currentMillis / 100) % 10 == 0){
+    //     Serial.println(currentMillis);
+    // }
 
-    if (currentMillis - previousMillis >= (interval * FREQUENCY)) {
+    String updates = tg_get_updates();
+    if (updates != "null")
+        Serial.println("GET Update: " + updates);
+
+    if (abs((long long) (currentMillis - previousMillis)) >= (interval * FREQUENCY)) {
         previousMillis = currentMillis;
 
         // Выполняем функцию в "отдельном потоке"
-        // printMessage(); //  Debug
-        Serial.println("GET Update: " + tg_get_updates());
+        String updates = tg_get_updates();
+        if (updates != "null")
+            Serial.println("GET Update: " + updates);
         Serial.println(MSG_SEND_TG_MESSAGE);
-        send_stat(); //  FREQUENCY * 5 min
+        send_stat();
     }
 
-    if (currentMillis - previousLimitMillis >= (interval * 25)) {
+    if (abs((long long) (currentMillis - previousLimitMillis)) >= (interval * 30)) {   //  15 min
         if (!check_limits()) {
             previousLimitMillis = currentMillis;
             send_stat();
         }
     }
-    // delay(250); // Debug
-}
-
-void printMessage() {
-    Serial.println("======= Notification =======");
-    Serial.print(getData());
-    Serial.print(getSoilMoisture());
-    Serial.print(getTemperature());
-    Serial.println("============================\n");
 }

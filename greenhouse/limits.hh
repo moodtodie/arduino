@@ -2,8 +2,8 @@
 #define GREENHOUSE_LIMITS_H
 
 #include "config.h"
-#include "DS18B20.h"
-#include "ESP8266.h"
+#include "sensors.hh"
+#include "telegram.hh"
 
 void setAirMoisture(int value);
 int getAirMoisture();

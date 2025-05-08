@@ -1,18 +1,20 @@
-#ifndef GREENHOUSE_DS18B20_H
-#define GREENHOUSE_DS18B20_H
+#ifndef GREENHOUSE_SENSORS_HH
+#define GREENHOUSE_SENSORS_HH
 
 #include <OneWire.h>
 #include <DallasTemperature.h>
-#include "limits.h"
+
 #include "config.h"
+#include "limits.hh"
+#include "service.hh"
 
 void init_thermal_sensors();
-
 uint8_t getThermalSensorsCount();
-
 String getTemperature();
 
 float getMaxTemperatureOnSensors();
 float getMinTemperatureOnSensors();
 
-#endif // GREENHOUSE_DS18B20_H
+String get_soil_moisture();
+
+#endif // GREENHOUSE_SENSORS_HH

@@ -1,8 +1,10 @@
-#include "limits.h"
+#include "limits.hh"
 
 // Moisture
-int air_moisture_value = AIR_MOISTURE_VALUE;        //  Значение датчика в воздухе
-int water_moisture_value = WATER_MOISTURE_VALUE;    //  Значение датчика в воде
+// int air_moisture_value    = AIR_MOISTURE_VALUE;     //  Значение датчика в воздухе
+// int water_moisture_value  = WATER_MOISTURE_VALUE;   //  Значение датчика в воде
+int air_moisture_value;   //  Значение датчика в воздухе
+int water_moisture_value; //  Значение датчика в воде
 
 void setAirMoisture(int value){
     air_moisture_value = value;
@@ -21,8 +23,10 @@ int getWaterMoisture(){
 }
 
 // Temperature
-float max_temperature = 40;
-float min_temperature = 0;
+// float max_temperature = MAX_TEMPERATURE_VALUE;
+// float min_temperature = MIN_TEMPERATURE_VALUE;
+float max_temperature;
+float min_temperature;
 
 void setMaxTemperature(float value) {
   max_temperature = value;
