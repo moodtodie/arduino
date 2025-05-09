@@ -85,14 +85,12 @@ void post_request(String url, String json_data){
 
 //  Получает текущее время на основании IP-адреса
 String get_formatted_datetime() {
-    String url = "https://timeapi.io/api/Time/current/ip?ipAddress=" + String(LOCATION_IP);
-
     int attempt = 0;
 
     do {
         attempt++;
 
-        String response = get_request(url);
+        String response = get_request(String(TIME_API));
         String datetime = getDataTimeFromJson(response);
 
         if (response == "null" || !isCorrectDateFormat(datetime)){

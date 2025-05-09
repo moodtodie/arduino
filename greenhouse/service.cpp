@@ -28,17 +28,26 @@ String formatDate(String inputDate) {
   return formattedDate;
 }
 
+String formatIsoToShort(String isoformat) {
+  // Извлекаем нужные части
+  String datePart = isoformat.substring(0, 10);  // "YYYY-MM-DD"
+  String timePart = isoformat.substring(11, 16); // "HH:MM"
+
+  return datePart + " " + timePart;
+}
+
 String getDataTimeFromJson(String input) {
-    String output = "";
     DynamicJsonDocument json(1024);
 
     deserializeJson(json, input);
 
-    String date = formatDate(json["date"].as<String>());
+    String output = formatIsoToShort(json["current_time"].as<String>());
 
-    output += String(MSG_DATE) + ": ";
-    output += date;
-    output += " " + json["time"].as<String>() + "\n";
+    // String date = formatDate(json["date"].as<String>());
+
+    // output += String(MSG_DATE) + ": ";
+    // output += date;
+    // output += " " + json["time"].as<String>() + "\n";
     return output;
 }
 
