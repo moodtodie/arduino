@@ -11,6 +11,7 @@ void setup() {
     Serial.println(MSG_HEADER);
 
     pinMode(RELAY_PIN, OUTPUT);
+    relayOff();
 
     setMaxTemperature(MAX_TEMPERATURE_VALUE);
     setMinTemperature(MIN_TEMPERATURE_VALUE);
