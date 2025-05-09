@@ -93,18 +93,18 @@ String get_formatted_datetime() {
         String response = get_request(String(TIME_API));
         String datetime = getDataTimeFromJson(response);
 
-        if (response == "null" || !isCorrectDateFormat(datetime)){
+        if (response == "null"){
             continue;
         } else {
             return datetime;
         }
     } while (attempt < 5);
 
-    return String(MSG_DATE) + ": " + String(MSG_NO_CONNECTION) + "\n";
+    return MSG_NO_CONNECTION;
 }
 
 void send_stat(String chat_id) {
-    String message = get_formatted_datetime();
+    String message = String(MSG_DATE) + ": " + get_formatted_datetime() + "\n";
     message += get_soil_moisture();
     message += getTemperature();
     tg_send_message(message, chat_id);
