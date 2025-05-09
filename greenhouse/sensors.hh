@@ -15,6 +15,8 @@ String getTemperature();
 float getMaxTemperatureOnSensors();
 float getMinTemperatureOnSensors();
 
+float getRelayTemperature();
+
 String get_soil_moisture();
 
 #endif // GREENHOUSE_SENSORS_HH

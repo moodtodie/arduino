@@ -42,11 +42,17 @@ String getTemperature() {
         }
         message += ": ";
         if (tempC > -100)
-            message += String(tempC, 1) + " \xC2\xB0" + "C\n";
+            message += String(tempC, 1) + " " + DEGREE + "C\n";
         else
             message += String(MSG_NO_DATA) + "\n";
     }
     return message;
+}
+
+float getRelayTemperature() {
+    // Fetch the temperature in degrees Celsius for device index:
+    float tempC = thermal_sensors.getTempCByIndex(THERMAL_SENSOR_FOR_RELAY);
+    return roundToTenths(tempC);
 }
 
 float getMaxTemperatureOnSensors() {

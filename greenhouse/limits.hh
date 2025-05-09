@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "sensors.hh"
+#include "relay.hh"
 #include "telegram.hh"
 
 void setAirMoisture(int value);
@@ -14,6 +15,11 @@ void setMaxTemperature(float value);
 float getMaxTemperature();
 void setMinTemperature(float value);
 float getMinTemperature();
+
+void setRelayOnTemperature(float value);
+float getRelayOnTemperature();
+void setRelayOffTemperature(float value);
+float getRelayOffTemperature();
 
 bool check_limits();
 

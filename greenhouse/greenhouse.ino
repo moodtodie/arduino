@@ -10,10 +10,14 @@ void setup() {
     Serial.println(MSG_SOURCE);
     Serial.println(MSG_HEADER);
 
+    pinMode(RELAY_PIN, OUTPUT);
+
     setMaxTemperature(MAX_TEMPERATURE_VALUE);
     setMinTemperature(MIN_TEMPERATURE_VALUE);
     setAirMoisture(AIR_MOISTURE_VALUE);
     setWaterMoisture(WATER_MOISTURE_VALUE);
+    setRelayOnTemperature(RELAY_ON_TEMPERATURE_VALUE);
+    setRelayOffTemperature(RELAY_OFF_TEMPERATURE_VALUE);
 
     Serial.println("\nThe limits are set up");
 

@@ -5,10 +5,11 @@
 #include <Arduino.h>
 
 //  Параметры для Wi-Fi модуля
-// #define STASSID "your_SSID" //  Название Wi-Fi сети
-// #define STAPSK "your_password"  //  Пароль от Wi-Fi сети
-#define LOCATION_IP "86.57.251.89"  //  IP-адрес, для которого будет получено текущее время
-#define FREQUENCY   60          // Периодичность уведомлений (N min)
+#define STASSID "your_SSID" //  Название Wi-Fi сети
+#define STAPSK "your_password"  //  Пароль от Wi-Fi сети
+
+#define TIME_API    "https://ipwho.is"
+#define FREQUENCY   60  // Периодичность уведомлений (N min)
 
 //  Настройка API Telegram
 #define TELEGRAM_BOT_TOKEN "your_token"
@@ -17,11 +18,17 @@
 //  Настройка датчика влажности
 #define MOISTURE_SENSOR_PIN A0      //  Пин (аналоговый)
 
+//  Пин для реле
+#define RELAY_PIN 1
+#define THERMAL_SENSOR_FOR_RELAY    1
+#define RELAY_ON_TEMPERATURE_VALUE  8   //  Значение температуры для включения реле
+#define RELAY_OFF_TEMPERATURE_VALUE 11  //  Значение температуры для выключения реле
+
 //  Настройка датчика температуры
 #define TEMPERATURE_SENSOR_PIN  4   //  Пин (цифровой)
-#define THERMAL_SENSOR_0        "датчика #1"    //  Имя термо-датчика №1
-#define THERMAL_SENSOR_1        "датчика #2"    //  Имя термо-датчика №2
-#define THERMAL_SENSOR_2        "датчика #3"    //  Имя термо-датчика №3
+#define THERMAL_SENSOR_0        "почвы"    //  Имя термо-датчика №1
+#define THERMAL_SENSOR_1        "воздуха теплицы"    //  Имя термо-датчика №2
+#define THERMAL_SENSOR_2        "воздуха улицы"    //  Имя термо-датчика №3
 
 //  Значения по умолчанию
 #define AIR_MOISTURE_VALUE      856 //  Значение датчика в воздухе

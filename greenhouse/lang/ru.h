@@ -32,6 +32,7 @@
 //  _
 #define TG_UNKNOWN_COMMAND "Неизвестная команда"
 
+const char DEGREE[] = "\xC2\xB0";
 
 // ошибки
 #define ERR_MSG_FAILED_TO_EXTRACT_VALUES "Ошибка: Не удалось извлечь все значения из строки"
@@ -54,3 +55,7 @@
 // для ограничений
 #define MSG_MAX_TEMPERATURE_LIMIT "ВНИМАНИЕ! Температура ВЫШЕ предела"
 #define MSG_MIN_TEMPERATURE_LIMIT "ВНИМАНИЕ! Температура НИЖЕ предела"
+
+// для реле
+#define MSG_RELAY_ON "Реле включено"
+#define MSG_RELAY_OFF "Реле выключено"

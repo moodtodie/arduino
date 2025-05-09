@@ -1,8 +1,6 @@
 #include "limits.hh"
 
 // Moisture
-// int air_moisture_value    = AIR_MOISTURE_VALUE;     //  Значение датчика в воздухе
-// int water_moisture_value  = WATER_MOISTURE_VALUE;   //  Значение датчика в воде
 int air_moisture_value;   //  Значение датчика в воздухе
 int water_moisture_value; //  Значение датчика в воде
 
@@ -23,8 +21,6 @@ int getWaterMoisture(){
 }
 
 // Temperature
-// float max_temperature = MAX_TEMPERATURE_VALUE;
-// float min_temperature = MIN_TEMPERATURE_VALUE;
 float max_temperature;
 float min_temperature;
 
@@ -44,8 +40,39 @@ float getMinTemperature() {
   return min_temperature;
 }
 
+// Relay
+float relay_on_temperature;
+float relay_off_temperature;
+
+void setRelayOnTemperature(float value) {
+  relay_on_temperature = value;
+}
+
+float getRelayOnTemperature() {
+  return relay_on_temperature;
+}
+
+void setRelayOffTemperature(float value) {
+  relay_off_temperature = value;
+}
+
+float getRelayOffTemperature() {
+  return relay_off_temperature;
+}
+
 // Check
 bool check_limits(){
+    float cur_relay_temp = getRelayTemperature();
+    if (cur_relay_temp > relay_on_temperature) {
+        relayOn();
+        tg_send_message(String(MSG_RELAY_ON) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");
+        // tg_send_message(String(MSG_RELAY_ON) + ". " + String(cur_relay_temp) + " \xC2\xB0C");
+    } else if (cur_relay_temp < relay_off_temperature) {
+        relayOff();
+        tg_send_message(String(MSG_RELAY_OFF) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");
+        // tg_send_message(String(MSG_RELAY_OFF) + ". " + String(cur_relay_temp) + " \xC2\xB0C");
+    }
+
     if (getMaxTemperatureOnSensors() > max_temperature) {
         tg_send_message(MSG_MAX_TEMPERATURE_LIMIT);
         return false;
