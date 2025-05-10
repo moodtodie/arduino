@@ -9,7 +9,6 @@
 #include "service.hh"
 #include "sensors.hh"
 
-
 void wifi_connect();
 void post_request(String url, String json_data);
 String get_request(String url);

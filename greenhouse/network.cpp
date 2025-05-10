@@ -107,5 +107,11 @@ void send_stat(String chat_id) {
     String message = String(MSG_DATE) + ": " + get_formatted_datetime() + "\n";
     message += get_soil_moisture();
     message += getTemperature();
+    message += "Обогрев: ";
+    if(isActive())
+      message += "ВКЛ";
+    else
+      message += "ВЫКЛ";
+    message += "\n";
     tg_send_message(message, chat_id);
 }

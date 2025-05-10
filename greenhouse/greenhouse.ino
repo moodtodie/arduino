@@ -47,6 +47,7 @@ void setup() {
     tg_send_message(telegram_message);
 
     Serial.println(MSG_FOOTER);
+    check_limits();
     send_stat();
 }
 
@@ -56,10 +57,6 @@ const long interval = 1000 * 60;  //  1 min
 
 void loop() {
     unsigned long currentMillis = millis();
-    
-    // if ((currentMillis / 100) % 10 == 0){
-    //     Serial.println(currentMillis);
-    // }
 
     String updates = tg_get_updates();
     if (updates != "null")
@@ -76,7 +73,9 @@ void loop() {
         send_stat();
     }
 
-    if (abs((long long) (currentMillis - previousLimitMillis)) >= (interval * 30)) {   //  15 min
+    check_relay_limits();
+
+    if (abs((long long) (currentMillis - previousLimitMillis)) >= (interval * 30)) {
         if (!check_limits()) {
             previousLimitMillis = currentMillis;
             send_stat();

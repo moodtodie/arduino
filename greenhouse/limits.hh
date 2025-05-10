@@ -21,6 +21,7 @@ float getRelayOnTemperature();
 void setRelayOffTemperature(float value);
 float getRelayOffTemperature();
 
+void check_relay_limits();
 bool check_limits();
 
 #endif // GREENHOUSE_LIMITS_H
