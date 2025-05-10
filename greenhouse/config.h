@@ -18,11 +18,11 @@
 //  Настройка датчика влажности
 #define MOISTURE_SENSOR_PIN A0      //  Пин (аналоговый)
 
-//  Пин для реле
-#define RELAY_PIN 1
-#define THERMAL_SENSOR_FOR_RELAY    1
+//  Настройка реле
+#define RELAY_PIN 12                    //  Пин для реле
+#define THERMAL_SENSOR_FOR_RELAY    1   //  Нумерация термо датчиков начинается с 0
 #define RELAY_ON_TEMPERATURE_VALUE  8   //  Значение температуры для включения реле
-#define RELAY_OFF_TEMPERATURE_VALUE 11  //  Значение температуры для выключения реле
+#define RELAY_OFF_TEMPERATURE_VALUE 10  //  Значение температуры для выключения реле
 
 //  Настройка датчика температуры
 #define TEMPERATURE_SENSOR_PIN  4   //  Пин (цифровой)

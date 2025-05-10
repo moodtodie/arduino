@@ -8,10 +8,10 @@ bool isActive() {
 
 void relayOn() {
   isOn = true;
-  digitalWrite(RELAY_PIN, HIGH);
+  digitalWrite(RELAY_PIN, LOW);
 }
 
 void relayOff() {
   isOn = false;
-  digitalWrite(RELAY_PIN, LOW);
+  digitalWrite(RELAY_PIN, HIGH);
 }
