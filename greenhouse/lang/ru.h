@@ -11,7 +11,7 @@
 #define TG_HEADER "Arduino WeNos D1 R1 запущен!"
 #define TG_COUNT_TERAL_SENSORS "Датчиков температуры"
 //  /info 
-#define TG_DESC_TO_SET_NEW_LIMITS "Чтобы установить новый ограничения"
+#define TG_DESC_TO_SET_NEW_LIMITS "Чтобы установить новые ограничения"
 #define TG_DESC_TYPE_TEMPERATURE "температура (val - с плавающей запятой)"
 #define TG_DESC_TYPE_MOISTURE "влажность (val - целочисленое)"
 #define TG_DESC_UPPER_LIMIT "верхняя граница"
