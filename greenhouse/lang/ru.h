@@ -57,5 +57,5 @@ const char DEGREE[] = "\xC2\xB0";
 #define MSG_MIN_TEMPERATURE_LIMIT "ВНИМАНИЕ! Температура НИЖЕ предела"
 
 // для реле
-#define MSG_RELAY_ON "Реле включено"
-#define MSG_RELAY_OFF "Реле выключено"
+#define MSG_RELAY_ON "Обогрев - включен"
+#define MSG_RELAY_OFF "Обогрев - отключен"

@@ -3,6 +3,8 @@
 
 #include "config.h"
 
+bool isActive();
+
 void relayOn();
 void relayOff();
 

@@ -63,14 +63,12 @@ float getRelayOffTemperature() {
 // Check
 bool check_limits(){
     float cur_relay_temp = getRelayTemperature();
-    if (cur_relay_temp > relay_on_temperature) {
+    if (!isActive() && cur_relay_temp <= relay_on_temperature) {
         relayOn();
-        tg_send_message(String(MSG_RELAY_ON) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");
-        // tg_send_message(String(MSG_RELAY_ON) + ". " + String(cur_relay_temp) + " \xC2\xB0C");
-    } else if (cur_relay_temp < relay_off_temperature) {
+        tg_send_message(String(MSG_RELAY_ON) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");      
+    } else if (isActive() && cur_relay_temp >= relay_off_temperature) {
         relayOff();
         tg_send_message(String(MSG_RELAY_OFF) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");
-        // tg_send_message(String(MSG_RELAY_OFF) + ". " + String(cur_relay_temp) + " \xC2\xB0C");
     }
 
     if (getMaxTemperatureOnSensors() > max_temperature) {
