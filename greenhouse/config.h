@@ -5,14 +5,14 @@
 #include <Arduino.h>
 
 //  Параметры для Wi-Fi модуля
-#define STASSID "your_SSID" //  Название Wi-Fi сети
-#define STAPSK "your_password"  //  Пароль от Wi-Fi сети
+#define STASSID "YOUR_SSID" //  Название Wi-Fi сети
+#define STAPSK "YOUR_PASSWORD"  //  Пароль от Wi-Fi сети
 
-#define TIME_API    "https://ipwho.is"
+#define TIME_API    "https://timeapi.io/api/v1/time/current/coordinate?latitude=INSERT YOUR VALUE&longitude=INSERT YOUR VALUE"
 #define FREQUENCY   60  // Периодичность уведомлений (N min)
 
 //  Настройка API Telegram
-#define TELEGRAM_BOT_TOKEN "your_token"
+#define TELEGRAM_BOT_TOKEN "YOUR_TOKEN"
 #define CHAT_ID {"chat_id_1", "chat_id_2"}  //  Multi
 
 //  Настройка датчика влажности

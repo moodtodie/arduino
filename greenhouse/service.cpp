@@ -17,5 +17,5 @@ String getDataTimeFromJson(String json_input) {
 
     deserializeJson(json, json_input);
 
-    return formatIsoToShort(json["timezone"]["current_time"].as<String>());
+    return formatIsoToShort(json["date_time"].as<String>());
 }
