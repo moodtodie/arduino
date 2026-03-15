@@ -9,19 +9,19 @@ int air_moisture_value;   //  Значение датчика в воздухе
 int water_moisture_value; //  Значение датчика в воде
 
 void setAirMoisture(int value){
-    air_moisture_value = value;
+  air_moisture_value = value;
 }
 
 int getAirMoisture(){
-    return air_moisture_value;
+  return air_moisture_value;
 }
 
 void setWaterMoisture(int value){
-    water_moisture_value = value;
+  water_moisture_value = value;
 }
 
 int getWaterMoisture(){
-    return water_moisture_value;
+  return water_moisture_value;
 }
 
 // Temperature
@@ -64,19 +64,19 @@ float getRelayOffTemperature() {
   return relay_off_temperature;
 }
 
+// Checks
 void check_relay_limits() {
   float cur_relay_temp = getRelayTemperature();
 
   if (!isActive() && cur_relay_temp <= relay_on_temperature) {
-      relayOn();
-      tg_send_message(String(MSG_RELAY_ON) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");      
+    relayOn();
+    tg_send_message(String(MSG_RELAY_ON) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");      
   } else if (isActive() && cur_relay_temp >= relay_off_temperature) {
     relayOff();
     tg_send_message(String(MSG_RELAY_OFF) + ". " + String(cur_relay_temp) + " " + DEGREE + "C");
   }
 }
 
-// Check
 bool check_limits(){
     //  Actual temperature HIGHER than the limit value  
   if (getMaxTemperatureOnSensors() > max_temperature) {    
