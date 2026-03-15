@@ -1,5 +1,9 @@
 #include "limits.hh"
 
+// Flags
+bool max_temp_reached = false;
+bool min_temp_reached = false;
+
 // Moisture
 int air_moisture_value;   //  Значение датчика в воздухе
 int water_moisture_value; //  Значение датчика в воде
@@ -74,12 +78,26 @@ void check_relay_limits() {
 
 // Check
 bool check_limits(){
-    if (getMaxTemperatureOnSensors() > max_temperature) {
-        tg_send_message(MSG_MAX_TEMPERATURE_LIMIT);
-        return false;
-    } else if (getMinTemperatureOnSensors() < min_temperature) {
-        tg_send_message(MSG_MIN_TEMPERATURE_LIMIT);
-        return false;
-    }
-    return true;   
+    //  Actual temperature HIGHER than the limit value  
+  if (getMaxTemperatureOnSensors() > max_temperature) {    
+    if (!max_temp_reached)  //  Notify only once
+      tg_send_message(MSG_MAX_TEMPERATURE_LIMIT);
+
+    max_temp_reached = true;
+    min_temp_reached = false;
+    return false;
+    //  Actual temperature LOWER than the limit value
+  } else if (getMinTemperatureOnSensors() < min_temperature) {
+    if (!min_temp_reached)  //  Notify only once
+      tg_send_message(MSG_MIN_TEMPERATURE_LIMIT);
+
+    max_temp_reached = false;
+    min_temp_reached = true;
+    return false;
+  } else {
+    //  Actual temperature within the limit range
+    max_temp_reached = false;
+    min_temp_reached = false;
+  }
+  return true;   
 }
